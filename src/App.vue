@@ -1,5 +1,6 @@
 <template>
-  <v-app>
+  <!-- With the key, any change to the path will trigger a reload of the component with the new data. -->
+  <v-app :key="$route.fullPath">
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
         <router-link to="/">
@@ -7,6 +8,19 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <div v-if="isLoggedIn">{{currentUser}}</div>
+      <div v-if="isLoggedIn">
+        <router-link to="/">Dashboard</router-link>
+      </div>
+      <div v-if="!isLoggedIn">
+        <router-link to="/login">Login</router-link>
+      </div>
+      <div v-if="!isLoggedIn">
+        <router-link to="/register">Register</router-link>
+      </div>
+      <div v-if="isLoggedIn">
+        <button v-on:click="logout">Logout</button>
+      </div>
       <v-btn text href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank">
         <span class="mr-2">Latest Release</span>
       </v-btn>
@@ -24,12 +38,34 @@
 </template>
 
 <script>
+import firebase from "firebase";
+
 export default {
   name: "App",
   components: {},
-  data: () => ({
-    //
-  })
+  data: function() {
+    return {
+      isLoggedIn: false,
+      currentUser: false
+    };
+  },
+  methods: {
+    logout: function() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          // this.$router.go({ path: this.$router.path });
+          this.$router.push("/login");
+        });
+    }
+  },
+  created() {
+    if (firebase.auth().currentUser) {
+      this.isLoggedIn = true;
+      this.currentUser = firebase.auth().currentUser.email;
+    }
+  }
 };
 </script>
 
