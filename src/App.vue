@@ -1,6 +1,6 @@
 <template>
-  <!-- With the key, any change to the path will trigger a reload of the component with the new data. -->
-  <v-app :key="$route.fullPath">
+  <!-- With the key, any change to the path will trigger a reload of the component with the new data. :key="$route.fullPath" -->
+  <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
         <router-link to="/">
@@ -55,8 +55,8 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          // this.$router.go({ path: this.$router.path });
-          this.$router.push("/login");
+          this.$router.go({ path: this.$router.path });
+          // this.$router.push("/login");
         });
     }
   },

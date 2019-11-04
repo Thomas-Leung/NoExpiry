@@ -31,7 +31,7 @@ export default {
           user => {
             alert(`You are logged in as ${user.user.email}`);
             //reload the whole page
-            this.$router.go({path: this.$router.path});
+            this.$router.go({path: this.$router.replace('/')});
           },
           err => {
             alert(err.message);
