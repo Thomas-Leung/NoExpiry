@@ -69,9 +69,9 @@ export default {
                 name: "Welcome, this is your first item",
                 amount: 1,
                 type: "food",
-                safe_after_expired: false,
-                date_created: today,
-                date_expiry: new Date(
+                safeAfterExpired: false,
+                dateCreated: today,
+                dateExpiry: new Date(
                   today.getUTCFullYear(),
                   today.getMonth(),
                   today.getDate() + 3

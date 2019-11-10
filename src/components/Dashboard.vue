@@ -58,7 +58,17 @@
     <h3>Items</h3>
     <ul>
       <li v-for="item in items" :key="item.id">
-        {{item.item_id}}:{{item.name}}
+        Name: {{item.name}}
+        <br />
+        Amount: {{item.amount}}
+        <br />
+        Type: {{item.type}}
+        <br />
+        Safe After expired? {{item.safeAfterExpired}}
+        <br />
+        Date Created: {{item.dateCreated}}
+        <br />
+        Date Expiry: {{item.dateExpiry}}
         <router-link :to="{name: 'view-item', params: {item_id: item.item_id}}">check</router-link>
       </li>
     </ul>
@@ -100,10 +110,16 @@ export default {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
+          const dateCreated = this.convertToDate(doc.data().dateCreated);
+          const dateExpiry = this.convertToDate(doc.data().dateExpiry);
           const data = {
             id: doc.id,
-            item_id: doc.data().item_id,
-            name: doc.data().name
+            name: doc.data().name,
+            amount: doc.data().amount,
+            type: doc.data().type,
+            safeAfterExpired: doc.data().safeAfterExpired,
+            dateCreated: dateCreated,
+            dateExpiry: dateExpiry
           };
           this.items.push(data);
         });
@@ -112,11 +128,19 @@ export default {
     if (firebase.auth().currentUser) {
       this.currentUser = firebase.auth().currentUser.email;
     }
+  },
+  methods: {
+    convertToDate(timeStamp) {
+      const { seconds } = timeStamp;
+      const date = new Date(seconds * 1000);
+      // Janurary gives 0
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .searchBar.v-toolbar {
   border-radius: 10px;
 }
