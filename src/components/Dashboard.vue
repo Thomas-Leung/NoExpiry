@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import firebase from "firebase";
 import db from "./firebaseInit";
 
 export default {
@@ -22,7 +23,22 @@ export default {
     };
   },
   created() {
-    db.collection("items")
+    // db.collection("items")
+    //   .orderBy("name")
+    //   .get()
+    //   .then(querySnapshot => {
+    //     querySnapshot.forEach(doc => {
+    //       const data = {
+    //         id: doc.id,
+    //         item_id: doc.data().item_id,
+    //         name: doc.data().name
+    //       };
+    //       this.items.push(data);
+    //     });
+    //   });
+    db.collection("users")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("items")
       .orderBy("name")
       .get()
       .then(querySnapshot => {

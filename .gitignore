@@ -27,3 +27,6 @@ firebase.json
 firestore.indexes.json
 firestore.rules
 firebaseConfig.js
+
+# Others
+UI Changes

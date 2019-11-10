@@ -13,6 +13,7 @@
 
 <script>
 import firebase from "firebase";
+import db from "./firebaseInit";
 
 export default {
   name: "register",
@@ -28,9 +29,19 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(
-          user => {
-            alert(`Account created for ${user.user.email}`);
-            this.$router.go({path: this.$router.path});
+          cred => {
+            return db
+              .collection("users")
+              .doc(cred.user.uid)
+              .collection("items")
+              .add({
+                item_id: "123",
+                name: "hello world"
+              })
+              .then(() => {
+                alert(`Account created for ${cred.user.email}.`);
+                this.$router.go({ path: this.$router.push("/") });
+              });
           },
           err => {
             alert(err.message);
