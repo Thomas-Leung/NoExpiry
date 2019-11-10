@@ -50,8 +50,8 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
-          user => {
-            alert(`You are logged in as ${user.user.email}`);
+          user => { // eslint-disable-line no-unused-vars
+            // alert(`You are logged in as ${user.user.email}`);
             //reload the whole page
             this.$router.go({ path: this.$router.replace("/") });
           },
