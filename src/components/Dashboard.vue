@@ -69,7 +69,7 @@
         Date Created: {{item.dateCreated}}
         <br />
         Date Expiry: {{item.dateExpiry}}
-        <router-link :to="{name: 'view-item', params: {item_id: item.item_id}}">check</router-link>
+        <router-link :to="{name: 'view-item', params: {item_id: item.id}}">check</router-link>
       </li>
     </ul>
   </div>

@@ -6,11 +6,17 @@ import ViewItem from '@/components/ViewItem'
 import EditItem from '@/components/EditItem'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import NotFound from '@/views/NotFound'
 import firebase from 'firebase'
 
 Vue.use(VueRouter)
 
 const routes = [{
+    path: '*',
+    name: 'notFound',
+    component: NotFound,
+  },
+  {
     path: '/',
     name: 'dashboard',
     component: Dashboard,
@@ -51,7 +57,7 @@ const routes = [{
     }
   },
   {
-    path: '/:item_id',
+    path: '/view/:item_id',
     name: 'view-item',
     component: ViewItem,
     meta: {
