@@ -9,7 +9,7 @@
       <v-toolbar-items>
         <!-- <v-btn text class="text-none" v-if="isLoggedIn">
           <router-link to="/">Dashboard</router-link>
-        </v-btn> -->
+        </v-btn>-->
         <v-btn text class="text-none" v-if="!isLoggedIn">
           <router-link to="/login">Login</router-link>
         </v-btn>
@@ -23,7 +23,9 @@
     <v-content>
       <router-link to="/new" v-if="isLoggedIn">
         <v-btn
-          color="blue-grey lighten-4"
+          dark
+          color="fab"
+          elevation="4"
           absolute
           fab
           right
@@ -65,12 +67,17 @@ export default {
       this.isLoggedIn = true;
       this.currentUser = firebase.auth().currentUser.email;
     }
+  },
+  beforeMount() {
+    if (localStorage.darkMode) {
+      this.$vuetify.theme.dark = localStorage.darkMode === "true";
+    }
   }
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
