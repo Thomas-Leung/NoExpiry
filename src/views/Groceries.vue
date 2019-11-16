@@ -17,22 +17,22 @@
           <!-- close is method which closes an opened side -->
           <div class="card-content">
             <!-- style content how ever you like -->
-            <h2>{{ item.title }}</h2>
-            <p>{{ item.description }}</p>
-            <span>{{ index }}</span>
+            <h2>{{ item.name }}</h2>
+            <p>{{ item.amount }}</p>
+            <p>{{ item.dateExpiry }}</p>
           </div>
         </template>
         <template v-slot:left="{ item, close }">
           <div class="swipeout-action blue">
-            <v-icon>mdi-card-search-outline</v-icon>
+            <v-icon dark>mdi-card-search-outline</v-icon>
           </div>
           <div class="swipeout-action purple" @click="close">
-            <v-icon>mdi-pencil</v-icon>
+            <v-icon dark>mdi-pencil</v-icon>
           </div>
         </template>
         <template v-slot:right="{ item }">
           <div class="swipeout-action red" @click="remove(item)">
-            <v-icon>mdi-delete-outline</v-icon>
+            <v-icon dark>mdi-delete-outline</v-icon>
           </div>
         </template>
       </swipe-list>
@@ -54,18 +54,15 @@ export default {
       mockSwipeList: [
         {
           id: 0,
-          title: "Some title",
-          description: "some description"
+          name: "Orange",
+          amount: 1,
+          dateExpiry: "2019-11-13"
         },
         {
           id: 1,
-          title: "Some title",
-          description: "some description"
-        },
-        {
-          id: 2,
-          title: "Some title",
-          description: "some description"
+          name: "Apple",
+          amount: 1,
+          dateExpiry: "2019-11-13"
         }
       ]
     };
@@ -83,7 +80,7 @@ export default {
 </script>
 
 <style>
-@import '../../node_modules/vue-swipe-actions/dist/vue-swipe-actions.css';
+@import "../../node_modules/vue-swipe-actions/dist/vue-swipe-actions.css";
 
 .swipeout-action {
   display: flex;
@@ -114,13 +111,6 @@ export default {
 .swipeout-action.red:hover {
   background-color: darken(rgb(255, 59, 48), 5%);
 }
-.swipeout-action.green {
-  color: white;
-  background-color: rgb(76, 217, 100);
-}
-.swipeout-action.green:hover {
-  background-color: darken(rgb(76, 217, 100), 5%);
-}
 .swipeout-list-item {
   flex: 1;
   border-bottom: 1px solid lightgray;
@@ -137,21 +127,5 @@ export default {
 }
 .card-content {
   padding: 1rem;
-}
-.transition-right {
-  transform: translate3d(100%, 0, 0) !important;
-}
-.transition-left {
-  transform: translate3d(-100%, 0, 0) !important;
-}
-.toolbar {
-  display: flex;
-  align-items: center;
-}
-.toolbar .toolbar-section {
-  flex: 0 0 auto;
-}
-.toolbar .toolbar-section--center {
-  flex: 1000 1 0%;
 }
 </style>
