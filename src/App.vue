@@ -34,7 +34,9 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </router-link>
-      <router-view />
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
     </v-content>
   </v-app>
 </template>
@@ -88,5 +90,17 @@ export default {
 a {
   text-decoration: none;
   color: black !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
