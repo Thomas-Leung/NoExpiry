@@ -71,6 +71,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   text-align: center;
