@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import db from "./firebaseInit";
+import db from "../components/firebaseInit";
 
 export default {
   name: "edit-employee",

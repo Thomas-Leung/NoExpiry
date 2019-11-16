@@ -1,23 +1,22 @@
 <template>
   <!-- With the key, any change to the path will trigger a reload of the component with the new data. :key="$route.fullPath" -->
   <v-app>
-    <v-app-bar app>
+    <v-app-bar v-if="!isLoggedIn" app>
       <v-toolbar-title class="headline">
         <router-link to="/">No Expiry</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn lower class="text-none" text v-if="isLoggedIn">{{currentUser}}</v-btn>
-        <v-btn text class="text-none" v-if="isLoggedIn">
+        <!-- <v-btn text class="text-none" v-if="isLoggedIn">
           <router-link to="/">Dashboard</router-link>
-        </v-btn>
+        </v-btn> -->
         <v-btn text class="text-none" v-if="!isLoggedIn">
           <router-link to="/login">Login</router-link>
         </v-btn>
         <v-btn text class="text-none" v-if="!isLoggedIn">
           <router-link to="/register">Register</router-link>
         </v-btn>
-        <v-btn text class="text-none" v-if="isLoggedIn" v-on:click="logout">Logout</v-btn>
+        <!-- <v-btn text class="text-none" v-if="isLoggedIn" v-on:click="logout">Logout</v-btn> -->
       </v-toolbar-items>
     </v-app-bar>
 
