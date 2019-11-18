@@ -13,7 +13,7 @@
           <div class="card-content">
             <table style="width:100%; border-spacing: 0px;">
               <tr>
-                <td class="card-title">{{ item.name }}</td>
+                <td class="card-title" @click="itemClick(item.id)">{{ item.name }}</td>
                 <td class="body-2 font-weight-light" rowspan="2" style="padding: 8px;">
                   Amount
                   <br />
@@ -21,13 +21,14 @@
                 </td>
                 <td
                   style="background-color:#CFD8DC; border-radius:0px 20px 0px 0px; padding:0px 2.5px;"
+                  @click="addAmount"
                 >
                   <v-icon dark>mdi-chevron-up</v-icon>
                 </td>
               </tr>
               <tr>
                 <td
-                  class="subtitle-2 font-weight-light"
+                  class="font-weight-light"
                   style="text-align:start; padding: 5px 0px 12px 16px;"
                 >Expiry: {{ item.dateExpiry }}</td>
                 <td
@@ -60,23 +61,6 @@
         </p>
       </div>
     </div>
-
-    <ul>
-      <li v-for="item in items" :key="item.id">
-        Name: {{item.name}}
-        <br />
-        Amount: {{item.amount}}
-        <br />
-        Type: {{item.type}}
-        <br />
-        Safe After expired? {{item.safeAfterExpired}}
-        <br />
-        Date Created: {{item.dateCreated}}
-        <br />
-        Date Expiry: {{item.dateExpiry}}
-        <router-link :to="{name: 'view-item', params: {item_id: item.id}}">check</router-link>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -161,8 +145,12 @@ export default {
       this.mockSwipeList = this.mockSwipeList.filter(i => i !== item);
       // console.log(e, 'remove');
     },
-    itemClick(e) {
-      console.log(e, "item click");
+    itemClick(itemId) {
+      // console.log(itemId, "item click");
+      // this.$router.push({name: 'view-item', params: {item_id: itemId}});
+    },
+    addAmount() {
+      console.log("Amount added");
     }
   }
 };
