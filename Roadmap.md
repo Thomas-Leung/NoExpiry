@@ -19,10 +19,12 @@
 ### Event log
 Nov 3, 2019
 - Created Scaffold for login and data store
+
 Nov 10, 2019
 - multiple users login works
 - can store all the data I want
 - add UI for login and register page
+
 Nov 16-17, 2019
 - add UI for dashboard
 - add swipe feature

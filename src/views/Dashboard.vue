@@ -3,7 +3,7 @@
     <Searchbar />
     <p class="dashboard-title">Your Food</p>
     <div class="swipe-content">
-      <swipe-list class="card" :disabled="!enabled" :items="items" item-key="item.id">
+      <swipe-list class="card" :disabled="!enabled" :items="itemList" item-key="item.id">
         <template v-slot="{ item, index, revealLeft, revealRight, close }">
           <!-- item is the corresponding object from the array -->
           <!-- index is clearly the index @swipeout:click="itemClick"-->
@@ -42,10 +42,10 @@
           </div>
         </template>
         <template v-slot:left="{ item, close }">
-          <div class="swipeout-action grey">
+          <div class="swipeout-action grey" @click="close">
             <v-icon dark>mdi-eye-off</v-icon>
           </div>
-          <div class="swipeout-action dark-blue" @click="close">
+          <div class="swipeout-action dark-blue" @click="editItem">
             <v-icon dark>mdi-pencil</v-icon>
           </div>
         </template>
@@ -55,7 +55,7 @@
           </div>
         </template>
       </swipe-list>
-      <div v-if="this.mockSwipeList.length === 0">
+      <div v-if="this.itemList.length === 0">
         <p class="body-1">
           <v-icon>mdi-noodles</v-icon>No Item
         </p>
@@ -78,24 +78,10 @@ export default {
   },
   data() {
     return {
-      items: [],
+      itemList: [],
       receive: false,
       currentUser: false,
-      enabled: true,
-      mockSwipeList: [
-        {
-          id: 0,
-          name: "Orange",
-          amount: 1,
-          dateExpiry: "2019-11-13"
-        },
-        {
-          id: 1,
-          name: "Apple",
-          amount: 1,
-          dateExpiry: "2019-11-13"
-        }
-      ]
+      enabled: true
     };
   },
   created() {
@@ -130,7 +116,7 @@ export default {
             dateCreated: dateCreated,
             dateExpiry: dateExpiry
           };
-          this.items.push(data);
+          this.itemList.push(data);
         });
       });
   },
@@ -141,13 +127,16 @@ export default {
       // Janurary gives 0
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     },
-    remove(item) {
-      this.mockSwipeList = this.mockSwipeList.filter(i => i !== item);
-      // console.log(e, 'remove');
-    },
     itemClick(itemId) {
       // console.log(itemId, "item click");
       // this.$router.push({name: 'view-item', params: {item_id: itemId}});
+    },
+    editItem() {
+      console.log("Edit item is coming soon.")
+    },
+    remove(item) {
+      this.itemList = this.itemList.filter(i => i !== item);
+      // console.log(e, 'remove');
     },
     addAmount() {
       console.log("Amount added");
