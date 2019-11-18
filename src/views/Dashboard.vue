@@ -1,14 +1,9 @@
 <template>
   <div id="dashboard">
     <Searchbar />
-    <p class="headline font-weight-bold text-justify pl-6">Your Food</p>
+    <p class="dashboard-title">Your Food</p>
     <div class="swipe-content">
-      <swipe-list
-        class="card"
-        :disabled="!enabled"
-        :items="items"
-        item-key="item.id"
-      >
+      <swipe-list class="card" :disabled="!enabled" :items="items" item-key="item.id">
         <template v-slot="{ item, index, revealLeft, revealRight, close }">
           <!-- item is the corresponding object from the array -->
           <!-- index is clearly the index @swipeout:click="itemClick"-->
@@ -18,22 +13,26 @@
           <div class="card-content">
             <table style="width:100%; border-spacing: 0px;">
               <tr>
-                <td class="title" style="text-align:start; padding: 10px 0px 0px 16px;">{{ item.name }}</td>
-                <td class="body-2 font-weight-light" rowspan="2">
+                <td class="card-title">{{ item.name }}</td>
+                <td class="body-2 font-weight-light" rowspan="2" style="padding: 8px;">
                   Amount
                   <br />
                   {{ item.amount }}
                 </td>
-                <td style="background-color:#CFD8DC; border-radius:0px 20px 0px 0px">
+                <td
+                  style="background-color:#CFD8DC; border-radius:0px 20px 0px 0px; padding:0px 2.5px;"
+                >
                   <v-icon dark>mdi-chevron-up</v-icon>
                 </td>
               </tr>
               <tr>
                 <td
                   class="subtitle-2 font-weight-light"
-                  style="text-align:start; padding: 0px 0px 10px 16px;"
+                  style="text-align:start; padding: 5px 0px 12px 16px;"
                 >Expiry: {{ item.dateExpiry }}</td>
-                <td style="background-color:#CFD8DC; border-radius:0px 0px 20px 0px" @click="itemClick">
+                <td
+                  style="background-color:#CFD8DC; border-radius:0px 0px 20px 0px; padding:0px 2.5px;"
+                >
                   <v-icon dark>mdi-chevron-down</v-icon>
                 </td>
               </tr>
@@ -56,7 +55,9 @@
         </template>
       </swipe-list>
       <div v-if="this.mockSwipeList.length === 0">
-        <p class="body-1"><v-icon>mdi-noodles</v-icon> No Item</p>
+        <p class="body-1">
+          <v-icon>mdi-noodles</v-icon>No Item
+        </p>
       </div>
     </div>
 
@@ -224,5 +225,22 @@ export default {
 
 .swipeout-list-item:last-of-type {
   border-bottom: none;
+}
+
+/* Dashboard styling */
+.dashboard-title {
+  font-weight: bold;
+  padding-left: 24px;
+  font-size: 1.6rem;
+  text-align: justify;
+}
+
+.card-title {
+  text-align: start;
+  padding: 12px 0px 5px 16px;
+  font-family: Avenir !important;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 120%;
 }
 </style>
