@@ -21,19 +21,6 @@
     </v-app-bar>
 
     <v-content>
-      <router-link to="/new" v-if="isLoggedIn">
-        <v-btn
-          dark
-          color="fab"
-          elevation="4"
-          absolute
-          fab
-          right
-          style="bottom: 0; position: absolute; margin: 0 0 16px 16px;"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </router-link>
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>

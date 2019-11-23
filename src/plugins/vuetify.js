@@ -16,10 +16,12 @@ export default new Vuetify({
         accent: colors.shades.black,
         error: colors.red.accent3,
         searchbar: '#e6eaf6',
-        fab: '#252a40'
+        fab: '#252a40',
+        textField: '#7c62a9'
       },
       dark: {
         primary: colors.blue.lighten3,
+        textField: '#ffffff'
       },
     },
   },

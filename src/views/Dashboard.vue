@@ -61,6 +61,19 @@
         </p>
       </div>
     </div>
+    <router-link to="/new">
+      <v-btn
+        dark
+        color="fab"
+        elevation="4"
+        absolute
+        fab
+        right
+        style="bottom: 0; position: absolute; margin: 0 0 16px 16px;"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </router-link>
   </div>
 </template>
 
@@ -132,7 +145,7 @@ export default {
       // this.$router.push({name: 'view-item', params: {item_id: itemId}});
     },
     editItem() {
-      console.log("Edit item is coming soon.")
+      console.log("Edit item is coming soon.");
     },
     remove(item) {
       this.itemList = this.itemList.filter(i => i !== item);
