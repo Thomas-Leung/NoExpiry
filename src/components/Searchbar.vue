@@ -1,6 +1,10 @@
 <template>
   <div class="searchbar-content">
-    <v-toolbar :elevation="0" min-width="90vw" class="searchBar ma-4" color="searchbar">
+    <!-- v-sheet is used to add margin for search bar without any scroll in dashboard -->
+    <v-sheet
+      :style="[{'height': '16px'},this.$vuetify.theme.dark? {'background-color':'#303030'}:{}]"
+    ></v-sheet>
+    <v-toolbar :elevation="0" min-width="90vw" class="searchBar" color="searchbar">
       <v-text-field hide-details prepend-icon="mdi-magnify" style="width:75vw;" single-line></v-text-field>
       <v-menu bottom left :close-on-content-click="true" :nudge-width="300" offset-y offset-x>
         <template v-slot:activator="{ on }">
@@ -58,7 +62,7 @@ import firebase from "firebase";
 export default {
   data() {
     return {
-      currentUser: false,
+      currentUser: false
     };
   },
   created() {
@@ -81,5 +85,9 @@ export default {
 <style>
 .searchBar.v-toolbar {
   border-radius: 10px;
+}
+
+.searchBar {
+  margin: 0px 16px 16px 16px;
 }
 </style>

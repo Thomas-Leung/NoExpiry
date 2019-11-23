@@ -51,16 +51,15 @@
         :label="`${safeAfterExpiry.toString()}`"
       ></v-switch>
       <v-btn
-        dark
         depressed
         rounded
         x-large
         color="textField"
-        style="padding: 0px 100px;"
-        @click.prevent="saveItem"
+        :style="[{'padding': '0px 100px'}, 
+        this.$vuetify.theme.dark? {'color':'black'}:{'color':'white'}]"
+        @click="saveItem"
       >Submit</v-btn>
     </v-form>
-    <button @click="showSnackbar">Click</button>
   </div>
 </template>
 
@@ -81,25 +80,29 @@ export default {
   },
   methods: {
     saveItem() {
-      const today = new Date();
-      const time = "T00:00:00";
-      db.collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("items")
-        .add({
-          name: this.name,
-          amount: this.amount,
-          type: "food",
-          safeAfterExpiry: this.safeAfterExpiry,
-          dateCreated: today,
-          dateExpiry: new Date(this.dateExpiry + time) // add time removes bug in js
-        })
-        .then(() => {
-          this.$router.push("/", () => {
-            this.$emit("showSnackbar", "Item added", "success");
-          });
-        })
-        .catch(err => console.log(err));
+      if (this.name === null || this.amount === null) {
+        this.$emit("showSnackbar", "Name or amount cannot be empty", "error");
+      } else {
+        const today = new Date();
+        const time = "T00:00:00";
+        db.collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .collection("items")
+          .add({
+            name: this.name,
+            amount: this.amount,
+            type: "food",
+            safeAfterExpiry: this.safeAfterExpiry,
+            dateCreated: today,
+            dateExpiry: new Date(this.dateExpiry + time) // add time removes bug in js
+          })
+          .then(() => {
+            this.$router.push("/", () => {
+              this.$emit("showSnackbar", "Item added", "success");
+            });
+          })
+          .catch(err => console.log(err));
+      }
     }
   }
 };

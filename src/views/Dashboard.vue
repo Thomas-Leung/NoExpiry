@@ -67,10 +67,10 @@
         dark
         color="fab"
         elevation="4"
-        absolute
+        fixed
         fab
         right
-        style="bottom: 0; position: absolute; margin: 0 0 16px 16px;"
+        style="bottom: 0; margin: 0 0 16px 16px;"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -163,9 +163,16 @@ export default {
 @import "../../node_modules/vue-swipe-actions/dist/vue-swipe-actions.css";
 
 .swipe-content {
-  /* top (right,left) botton */
-  padding: 0px 20px 20px;
+  padding: 0px 20px;
+  overflow-y: scroll;
+  overscroll-behavior-y: contain;
+  /* fill up bottom space of the dashboard */
+  position: absolute;
+  width: 100%;
+  top: 135px;
+  bottom: 0px;
 }
+
 .card {
   width: 100%;
   border-radius: 0px;
