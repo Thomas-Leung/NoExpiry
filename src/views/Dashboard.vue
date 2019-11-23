@@ -61,6 +61,7 @@
         </p>
       </div>
     </div>
+
     <router-link to="/new">
       <v-btn
         dark
@@ -94,7 +95,7 @@ export default {
       itemList: [],
       receive: false,
       currentUser: false,
-      enabled: true
+      enabled: true // enable swipe items
     };
   },
   created() {

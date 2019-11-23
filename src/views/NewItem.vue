@@ -6,77 +6,99 @@
     <router-link to="/">
       <v-row style="padding: 10px 0px 0px 0px;">
         <v-btn text :ripple="false">
-        <v-icon left>mdi-chevron-left</v-icon>back
+          <v-icon left>mdi-chevron-left</v-icon>back
         </v-btn>
       </v-row>
     </router-link>
     <p class="new-item-title">New Item</p>
     <v-form class="add-item-form">
-      <v-text-field label="Name" outlined v-model="itemName" color="textField" required></v-text-field>
+      <v-text-field label="Name" outlined v-model="name" color="textField" required></v-text-field>
       <v-text-field
         type="number"
         label="Amount"
         outlined
-        v-model="itemAmount"
+        v-model="amount"
         color="textField"
         required
       ></v-text-field>
       <v-dialog
         ref="dialog"
         v-model="dateModal"
-        :return-value.sync="itemDate"
+        :return-value.sync="dateExpiry"
         persistent
         width="290px"
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="itemDate"
+            v-model="dateExpiry"
             label="Expiry date"
             prepend-icon="mdi-calendar-alert"
             readonly
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="itemDate" scrollable color="textField">
+        <v-date-picker v-model="dateExpiry" scrollable color="textField">
           <v-spacer></v-spacer>
           <v-btn text color="primary" @click="dateModal = false">Cancel</v-btn>
-          <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+          <v-btn text color="primary" @click="$refs.dialog.save(dateExpiry)">OK</v-btn>
         </v-date-picker>
       </v-dialog>
       <p class="mb-1">Safe to consume after expiry date?</p>
       <v-switch
         class="switch mt-0"
         color="textField"
-        v-model="itemSafeAfterExpiry"
-        :label="`${itemSafeAfterExpiry.toString()}`"
+        v-model="safeAfterExpiry"
+        :label="`${safeAfterExpiry.toString()}`"
       ></v-switch>
-      <v-btn dark depressed rounded x-large color="textField" style="padding: 0px 100px;">Submit</v-btn>
+      <v-btn
+        dark
+        depressed
+        rounded
+        x-large
+        color="textField"
+        style="padding: 0px 100px;"
+        @click.prevent="saveItem"
+      >Submit</v-btn>
     </v-form>
+    <button @click="showSnackbar">Click</button>
   </div>
 </template>
 
 <script>
+import firebase from "firebase";
 import db from "../components/firebaseInit";
 
 export default {
   name: "new-item",
   data() {
     return {
-      itemName: null,
-      itemAmount: null,
-      itemDate: new Date().toISOString().substr(0, 10),
+      name: null,
+      amount: null,
+      dateExpiry: new Date().toISOString().substr(0, 10),
       dateModal: false,
-      itemSafeAfterExpiry: false
+      safeAfterExpiry: false
     };
   },
   methods: {
     saveItem() {
-      db.collection("items")
+      const today = new Date();
+      const time = "T00:00:00";
+      db.collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("items")
         .add({
-          item_id: this.item_id,
-          name: this.name
+          name: this.name,
+          amount: this.amount,
+          type: "food",
+          safeAfterExpiry: this.safeAfterExpiry,
+          dateCreated: today,
+          dateExpiry: new Date(this.dateExpiry + time) // add time removes bug in js
         })
-        .then(() => this.$router.push("/"))
+        .then(() => {
+          this.$router.push("/", () => {
+            this.$emit("showSnackbar", "Item added", "success");
+          });
+        })
         .catch(err => console.log(err));
     }
   }

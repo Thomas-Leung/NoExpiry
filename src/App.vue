@@ -22,22 +22,28 @@
 
     <v-content>
       <transition name="fade" mode="out-in">
-        <router-view />
+        <router-view @showSnackbar="showSnackbar"/>
       </transition>
     </v-content>
+    <Snackbar :bus="bus"/>
   </v-app>
 </template>
 
 <script>
+import Vue from 'vue';
 import firebase from "firebase";
+import Snackbar from '@/components/Snackbar.vue';
 
 export default {
   name: "App",
-  components: {},
+  components: {
+    Snackbar
+  },
   data: function() {
     return {
       isLoggedIn: false,
-      currentUser: false
+      currentUser: false,
+      bus: new Vue()
     };
   },
   methods: {
@@ -49,6 +55,9 @@ export default {
           this.$router.go({ path: this.$router.path });
           // this.$router.push("/login");
         });
+    },
+    showSnackbar(message, color) {
+      this.bus.$emit('showSnackbar', message, color);
     }
   },
   created() {

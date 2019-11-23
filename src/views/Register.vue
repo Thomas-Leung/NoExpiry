@@ -25,11 +25,6 @@
         <v-btn text @click="register">Register</v-btn>
       </v-card-actions>
     </v-card>
-
-    <v-snackbar :color="snackbarColor" :multi-line="true" v-model="snackbar">
-      {{ snackbarText }}
-      <v-btn color="white" text @click="snackbar = false">Close</v-btn>
-    </v-snackbar>
   </div>
 </template>
 
@@ -47,10 +42,7 @@ export default {
       rules: {
         required: value => !!value || "Required.",
         min: v => v.length >= 6 || "Min 6 characters"
-      },
-      snackbar: false,
-      snackbarText: "",
-      snackbarColor: "success"
+      }
     };
   },
   methods: {
@@ -66,7 +58,7 @@ export default {
               .doc(cred.user.uid)
               .collection("items")
               .add({
-                name: "Welcome, this is your first item",
+                name: "Your first item",
                 amount: 1,
                 type: "food",
                 safeAfterExpired: false,
@@ -78,18 +70,17 @@ export default {
                 )
               })
               .then(() => {
-                this.snackbarColor = "success";
-                this.snackbar = true;
-                this.snackbarText = `Account created for ${cred.user.email}.`;
-                setTimeout(() => {
-                  this.$router.go({ path: this.$router.push("/") });
-                }, 2000);
+                this.$router.push("/", () => {
+                  this.$emit(
+                    "showSnackbar",
+                    `Account created for ${cred.user.email}.`,
+                    "success"
+                  );
+                });
               });
           },
           err => {
-            this.snackbarColor = "error";
-            this.snackbar = true;
-            this.snackbarText = err.message;
+            this.$emit("showSnackbar", err.message, "error");
           }
         );
       e.preventDefault();
