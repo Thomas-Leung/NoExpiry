@@ -10,7 +10,7 @@
           <!-- revealLeft is method which toggles the left side -->
           <!-- revealRight is method which toggles the right side -->
           <!-- close is method which closes an opened side -->
-          <div class="card-content">
+          <div class="card-content" :class="item.color">
             <table style="width:100%; border-spacing: 0px;">
               <tr>
                 <td class="card-title" @click="itemClick(item.id)">{{ item.name }}</td>
@@ -96,6 +96,7 @@ export default {
   },
   data() {
     return {
+      // itemList has color property after fetch but not in firestore
       itemList: [],
       receive: false,
       currentUser: false,
@@ -103,11 +104,11 @@ export default {
       fab: true
     };
   },
-  created() {
+  beforeMount() {
     db.collection("users")
       .doc(firebase.auth().currentUser.uid)
       .collection("items")
-      .orderBy("name")
+      .orderBy("dateExpiry")
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -118,12 +119,16 @@ export default {
             name: doc.data().name,
             amount: doc.data().amount,
             type: doc.data().type,
-            safeAfterExpired: doc.data().safeAfterExpired,
+            safeAfterExpiry: doc.data().safeAfterExpiry,
             dateCreated: dateCreated,
             dateExpiry: dateExpiry
           };
           this.itemList.push(data);
         });
+      })
+      .then(() => {
+        // need to wait for all gets
+        this.addColorToList();
       });
   },
   methods: {
@@ -144,6 +149,7 @@ export default {
       if (change === "decrease" && item.amount === 1) {
         return;
       } else {
+        // this won't include color attribute as we are modifying firsbase data
         db.collection("users")
           .doc(firebase.auth().currentUser.uid)
           .collection("items")
@@ -174,7 +180,6 @@ export default {
       }
     },
     removeItem(item) {
-      console.log(item.id, "removeItem");
       db.collection("users")
         .doc(firebase.auth().currentUser.uid)
         .collection("items")
@@ -204,6 +209,33 @@ export default {
       } else {
         this.fab = true;
       }
+    },
+    addColorToList() {
+      var result = [];
+      const tdy = new Date();
+      const time = "T00:00:00";
+      // convert [__ob__: Observer] (vue special array) to normal array
+      var list = JSON.parse(JSON.stringify(this.itemList));
+      list.forEach(item => {
+        // convert string to date
+        const expiryDate = new Date(item["dateExpiry"] + time);
+        // check if expired (negative means expired)
+        const dayDiff = Math.ceil((expiryDate - tdy) / (1000 * 60 * 60 * 24));
+        if (dayDiff > 3) {
+          item["color"] = "card-green";
+        } else if (dayDiff > 0) {
+          item["color"] = "card-yellow";
+        } else {
+          if (item.safeAfterExpiry === true) {
+            item["color"] = "card-indigo";
+          } else {
+            item["color"] = "card-red";
+          }
+        }
+        result.push(item);
+      });
+      this.itemList = result;
+      console.log(this.itemList, "final");
     }
   }
 };
@@ -230,9 +262,21 @@ export default {
   /* border: 1px solid lightgray; */
 }
 
+.card-indigo {
+  background: #6c6de5;
+}
+.card-red {
+  background: #ff4c5f;
+}
+.card-yellow {
+  background: #faab1e;
+}
+.card-green {
+  background: #86c01e;
+}
+
 .card-content {
   padding: 0rem;
-  background: #99cd49;
   border-radius: 20px;
   color: white;
 }
