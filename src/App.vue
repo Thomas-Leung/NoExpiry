@@ -7,16 +7,12 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <!-- <v-btn text class="text-none" v-if="isLoggedIn">
-          <router-link to="/">Dashboard</router-link>
-        </v-btn>-->
         <v-btn text class="text-none" v-if="!isLoggedIn">
           <router-link to="/login">Login</router-link>
         </v-btn>
         <v-btn text class="text-none" v-if="!isLoggedIn">
           <router-link to="/register">Register</router-link>
         </v-btn>
-        <!-- <v-btn text class="text-none" v-if="isLoggedIn" v-on:click="logout">Logout</v-btn> -->
       </v-toolbar-items>
     </v-app-bar>
 
@@ -47,15 +43,6 @@ export default {
     };
   },
   methods: {
-    logout: function() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.go({ path: this.$router.path });
-          // this.$router.push("/login");
-        });
-    },
     showSnackbar(message, color) {
       this.bus.$emit('showSnackbar', message, color);
     }

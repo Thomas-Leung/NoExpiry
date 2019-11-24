@@ -48,7 +48,7 @@
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn text class="red--text caption">Logout</v-btn>
+            <v-btn text class="red--text caption" @click="logout">Logout</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -77,6 +77,15 @@ export default {
       } else {
         this.$vuetify.theme.dark = localStorage.darkMode = true;
       }
+    },
+    logout: function() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.go({ path: this.$router.path });
+          // this.$router.push("/login");
+        });
     }
   }
 };
