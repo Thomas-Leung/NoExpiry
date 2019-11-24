@@ -50,7 +50,7 @@
           </div>
         </template>
         <template v-slot:right="{ item }">
-          <div class="swipeout-action dark-red" @click="remove(item)">
+          <div class="swipeout-action dark-red" @click="removeItem(item)">
             <v-icon dark>mdi-delete</v-icon>
           </div>
         </template>
@@ -103,19 +103,6 @@ export default {
     };
   },
   created() {
-    // db.collection("items")
-    //   .orderBy("name")
-    //   .get()
-    //   .then(querySnapshot => {
-    //     querySnapshot.forEach(doc => {
-    //       const data = {
-    //         id: doc.id,
-    //         item_id: doc.data().item_id,
-    //         name: doc.data().name
-    //       };
-    //       this.items.push(data);
-    //     });
-    //   });
     db.collection("users")
       .doc(firebase.auth().currentUser.uid)
       .collection("items")
@@ -152,9 +139,26 @@ export default {
     editItem() {
       console.log("Edit item is coming soon.");
     },
-    remove(item) {
-      this.itemList = this.itemList.filter(i => i !== item);
-      // console.log(e, 'remove');
+    removeItem(item) {
+      console.log(item.id, "removeItem");
+      db.collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("items")
+        .doc(item.id)
+        .get()
+        .then(queryShapshot => {
+          if (!queryShapshot.exists) {
+            this.$emit(
+              "showSnackbar",
+              "Cannot delete item. Try again later.",
+              "error"
+            );
+          } else {
+            queryShapshot.ref.delete();
+            this.itemList = this.itemList.filter(i => i !== item);
+            this.$emit("showSnackbar", "Item deleted", "info");
+          }
+        });
     },
     addAmount() {
       console.log("Amount added");
