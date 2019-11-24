@@ -1,9 +1,9 @@
 <template>
   <div id="dashboard">
-    <Searchbar />
+    <Searchbar @search="query = $event" />
     <p class="dashboard-title">Your Food</p>
     <div id="swipe-content" v-scroll:#swipe-content="onScroll">
-      <swipe-list class="card" :disabled="!enabled" :items="itemList" item-key="item.id">
+      <swipe-list class="card" :disabled="!enabled" :items="computedList" item-key="item.id">
         <template v-slot="{ item, index, revealLeft, revealRight, close }">
           <!-- item is the corresponding object from the array -->
           <!-- index is clearly the index @swipeout:click="itemClick"-->
@@ -56,7 +56,7 @@
           </div>
         </template>
       </swipe-list>
-      <div v-if="this.itemList.length === 0">
+      <div v-if="this.computedList.length === 0">
         <p class="body-1">
           <v-icon>mdi-noodles</v-icon>No Item
         </p>
@@ -101,7 +101,8 @@ export default {
       receive: false,
       currentUser: false,
       enabled: true, // enable swipe items
-      fab: true
+      fab: true,
+      query: ""
     };
   },
   beforeMount() {
@@ -248,6 +249,17 @@ export default {
       });
       result = tempExpiredList.concat(result);
       this.itemList = result;
+    }
+  },
+  computed: {
+    computedList: function() {
+      var vm = this;
+      return this.itemList.filter(function(item) {
+        // if match will be zero
+        return (
+          item["name"].toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+        );
+      });
     }
   }
 };
