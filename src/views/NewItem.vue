@@ -11,7 +11,7 @@
       </v-row>
     </router-link>
     <p class="new-item-title">New Item</p>
-    <v-form class="add-item-form">
+    <v-form class="add-item-form" @submit.prevent="saveItem">
       <v-text-field label="Name" outlined v-model="name" color="textField" required></v-text-field>
       <v-text-field
         type="number"
@@ -57,7 +57,7 @@
         color="textField"
         :style="[{'padding': '0px 100px'}, 
         this.$vuetify.theme.dark? {'color':'black'}:{'color':'white'}]"
-        @click="saveItem"
+        type="submit"
       >Submit</v-btn>
     </v-form>
   </div>

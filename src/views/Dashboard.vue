@@ -2,7 +2,7 @@
   <div id="dashboard">
     <Searchbar />
     <p class="dashboard-title">Your Food</p>
-    <div class="swipe-content">
+    <div id="swipe-content" v-scroll:#swipe-content="onScroll">
       <swipe-list class="card" :disabled="!enabled" :items="itemList" item-key="item.id">
         <template v-slot="{ item, index, revealLeft, revealRight, close }">
           <!-- item is the corresponding object from the array -->
@@ -63,17 +63,20 @@
     </div>
 
     <router-link to="/new">
-      <v-btn
-        dark
-        color="fab"
-        elevation="4"
-        fixed
-        fab
-        right
-        style="bottom: 0; margin: 0 0 16px 16px;"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
+      <transition name="fade">
+        <v-btn
+          dark
+          color="fab"
+          elevation="4"
+          fixed
+          fab
+          right
+          style="bottom: 0; margin: 0 0 16px 16px;"
+          v-if="fab"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </transition>
     </router-link>
   </div>
 </template>
@@ -95,7 +98,8 @@ export default {
       itemList: [],
       receive: false,
       currentUser: false,
-      enabled: true // enable swipe items
+      enabled: true, // enable swipe items
+      fab: true
     };
   },
   created() {
@@ -154,6 +158,17 @@ export default {
     },
     addAmount() {
       console.log("Amount added");
+    },
+    onScroll(e) {
+      // if it can be scroll and scroll
+      if (
+        e.target.scrollHeight > e.target.clientHeight &&
+        e.target.scrollTop > 100
+      ) {
+        this.fab = false;
+      } else {
+        this.fab = true;
+      }
     }
   }
 };
@@ -162,7 +177,7 @@ export default {
 <style>
 @import "../../node_modules/vue-swipe-actions/dist/vue-swipe-actions.css";
 
-.swipe-content {
+#swipe-content {
   padding: 0px 20px;
   overflow-y: scroll;
   overscroll-behavior-y: contain;
@@ -240,5 +255,14 @@ export default {
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 120%;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
