@@ -90,7 +90,7 @@ export default {
           .collection("items")
           .add({
             name: this.name,
-            amount: this.amount,
+            amount: parseInt(this.amount),
             type: "food",
             safeAfterExpiry: this.safeAfterExpiry,
             dateCreated: today,

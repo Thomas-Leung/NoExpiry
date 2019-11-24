@@ -21,7 +21,7 @@
                 </td>
                 <td
                   style="background-color:#CFD8DC; border-radius:0px 20px 0px 0px; padding:0px 2.5px;"
-                  @click="addAmount"
+                  @click="changeAmount(item, 'increase')"
                 >
                   <v-icon dark>mdi-chevron-up</v-icon>
                 </td>
@@ -33,6 +33,7 @@
                 >Expiry: {{ item.dateExpiry }}</td>
                 <td
                   style="background-color:#CFD8DC; border-radius:0px 0px 20px 0px; padding:0px 2.5px;"
+                  @click="changeAmount(item, 'decrease')"
                 >
                   <v-icon dark>mdi-chevron-down</v-icon>
                 </td>
@@ -139,6 +140,39 @@ export default {
     editItem() {
       console.log("Edit item is coming soon.");
     },
+    changeAmount(item, change) {
+      if (change === "decrease" && item.amount === 1) {
+        return;
+      } else {
+        db.collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .collection("items")
+          .doc(item.id)
+          .get()
+          .then(queryShapshot => {
+            if (!queryShapshot.exists) {
+              this.$emit(
+                "showSnackbar",
+                "Something went wrong. Try again later.",
+                "error"
+              );
+            } else {
+              let data = queryShapshot.data();
+              if (change === "increase") {
+                data.amount += 1;
+                queryShapshot.ref.update(data).then(() => {
+                  item.amount += 1;
+                });
+              } else {
+                data.amount -= 1;
+                queryShapshot.ref.update(data).then(() => {
+                  item.amount -= 1;
+                });
+              }
+            }
+          });
+      }
+    },
     removeItem(item) {
       console.log(item.id, "removeItem");
       db.collection("users")
@@ -159,9 +193,6 @@ export default {
             this.$emit("showSnackbar", "Item deleted", "info");
           }
         });
-    },
-    addAmount() {
-      console.log("Amount added");
     },
     onScroll(e) {
       // if it can be scroll and scroll
