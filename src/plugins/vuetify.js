@@ -24,11 +24,11 @@ export default new Vuetify({
         error: colors.red.accent3,
         searchbar: '#e6eaf6',
         fab: '#252a40',
-        textField: '#7c62a9'
+        newItem: '#7c62a9'
       },
       dark: {
         primary: colors.blue.lighten3,
-        textField: '#ffffff'
+        newItem: '#5840BB'
       },
     },
   },

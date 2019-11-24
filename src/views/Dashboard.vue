@@ -212,6 +212,7 @@ export default {
     },
     addColorToList() {
       var result = [];
+      var tempExpiredList = [];
       const tdy = new Date();
       const time = "T00:00:00";
       // convert [__ob__: Observer] (vue special array) to normal array
@@ -223,19 +224,30 @@ export default {
         const dayDiff = Math.ceil((expiryDate - tdy) / (1000 * 60 * 60 * 24));
         if (dayDiff > 3) {
           item["color"] = "card-green";
+          result.push(item);
         } else if (dayDiff > 0) {
           item["color"] = "card-yellow";
+          result.push(item);
         } else {
           if (item.safeAfterExpiry === true) {
             item["color"] = "card-indigo";
           } else {
             item["color"] = "card-red";
           }
+          tempExpiredList.push(item);
         }
-        result.push(item);
       });
+      // sort safe and unsafe items after expired (safe goes on the top)
+      tempExpiredList.sort((a, b) => {
+        if (a.safeAfterExpiry > b.safeAfterExpiry) {
+          // reverse the logic with sort
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+      result = tempExpiredList.concat(result);
       this.itemList = result;
-      console.log(this.itemList, "final");
     }
   }
 };
@@ -328,6 +340,7 @@ export default {
 }
 
 .card-title {
+  width: 65%;
   text-align: start;
   padding: 12px 0px 5px 16px;
   font-family: Avenir !important;

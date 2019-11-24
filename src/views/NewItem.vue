@@ -1,6 +1,6 @@
 <template>
   <div id="new-item">
-    <v-card class="mx-auto" color="#7c62a9" elevation="4">
+    <v-card class="mx-auto" color="newItem" elevation="4">
       <v-icon x-large dark style="padding: 20px; font-size:7rem;">mdi-food</v-icon>
     </v-card>
     <router-link to="/">
@@ -12,13 +12,13 @@
     </router-link>
     <p class="new-item-title">New Item</p>
     <v-form class="add-item-form" @submit.prevent="saveItem">
-      <v-text-field label="Name" outlined v-model="name" color="textField" required></v-text-field>
+      <v-text-field label="Name" outlined v-model="name" color="newItem" required></v-text-field>
       <v-text-field
         type="number"
         label="Amount"
         outlined
         v-model="amount"
-        color="textField"
+        color="newItem"
         required
       ></v-text-field>
       <v-dialog
@@ -37,7 +37,7 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="dateExpiry" scrollable color="textField">
+        <v-date-picker v-model="dateExpiry" scrollable color="newItem">
           <v-spacer></v-spacer>
           <v-btn text color="primary" @click="dateModal = false">Cancel</v-btn>
           <v-btn text color="primary" @click="$refs.dialog.save(dateExpiry)">OK</v-btn>
@@ -46,17 +46,18 @@
       <p class="mb-1">Safe to consume after expiry date?</p>
       <v-switch
         class="switch mt-0"
-        color="textField"
+        color="newItem"
         v-model="safeAfterExpiry"
         :label="`${safeAfterExpiry.toString()}`"
       ></v-switch>
+      <!-- :style="[{'padding': '0px 100px'}, this.$vuetify.theme.dark? {'color':'white'}:{'color':'white'}]" -->
       <v-btn
+        dark
         depressed
         rounded
         x-large
-        color="textField"
-        :style="[{'padding': '0px 100px'}, 
-        this.$vuetify.theme.dark? {'color':'black'}:{'color':'white'}]"
+        color="newItem"
+        style="padding: 0px 100px"
         type="submit"
       >Submit</v-btn>
     </v-form>
