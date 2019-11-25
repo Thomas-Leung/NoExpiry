@@ -24,6 +24,12 @@
         <v-spacer></v-spacer>
         <v-btn text @click="register">Register</v-btn>
       </v-card-actions>
+      <p>Caution: This app is still in development.</p>
+      <p>
+        Test the app at your own risk.
+        <v-icon>mdi-github-face</v-icon>
+      </p>
+      <br />
     </v-card>
   </div>
 </template>

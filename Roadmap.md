@@ -28,3 +28,13 @@ Nov 10, 2019
 Nov 16-17, 2019
 - add UI for dashboard
 - add swipe feature
+- add web app name and icon
+- add dark mode
+- add UI for newItem page
+
+Nov 23-24, 2019
+- add Add and delete item functionllity
+- UI changes for floading action button and dashboard list
+- able to increase and decrease amount
+- color is available in cards
+- add search functionallity

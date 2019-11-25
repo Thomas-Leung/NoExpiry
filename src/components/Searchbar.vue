@@ -5,7 +5,14 @@
       :style="[{'height': '16px'},this.$vuetify.theme.dark? {'background-color':'#303030'}:{}]"
     ></v-sheet>
     <v-toolbar :elevation="0" min-width="90vw" class="searchBar" color="searchbar">
-      <v-text-field hide-details prepend-icon="mdi-magnify" style="width:75vw;" single-line @input="$emit('search', $event)"></v-text-field>
+      <v-text-field
+        hide-details
+        placeholder="No Expiry"
+        prepend-icon="mdi-magnify"
+        style="width:75vw;"
+        single-line
+        @input="$emit('search', $event)"
+      ></v-text-field>
       <v-menu bottom left :close-on-content-click="true" :nudge-width="300" offset-y offset-x>
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
@@ -35,7 +42,7 @@
 
           <v-list>
             <v-list-item-group>
-              <v-list-item>
+              <v-list-item @click="$router.push('/groceries')">
                 <v-list-item-icon>
                   <v-icon style="padding-left:4px;">mdi-basket</v-icon>
                 </v-list-item-icon>
