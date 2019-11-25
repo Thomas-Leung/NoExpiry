@@ -271,7 +271,7 @@ export default {
 #swipe-content {
   padding: 0px 20px;
   overflow-y: scroll;
-  overscroll-behavior-y: contain;
+  /* overscroll-behavior-y: contain; */
   /* fill up bottom space of the dashboard */
   position: absolute;
   width: 100%;
