@@ -215,12 +215,11 @@ export default {
       var result = [];
       var tempExpiredList = [];
       const tdy = new Date();
-      const time = "T00:00:00";
       // convert [__ob__: Observer] (vue special array) to normal array
       var list = JSON.parse(JSON.stringify(this.itemList));
       list.forEach(item => {
         // convert string to date
-        const expiryDate = new Date(item["dateExpiry"] + time);
+        const expiryDate = new Date(item["dateExpiry"] + ' ');
         // check if expired (negative means expired)
         const dayDiff = Math.ceil((expiryDate - tdy) / (1000 * 60 * 60 * 24));
         if (dayDiff > 3) {

@@ -17,8 +17,8 @@
     </v-app-bar>
 
     <v-content>
-      <transition name="fade" mode="out-in">
-        <router-view @showSnackbar="showSnackbar"/>
+      <transition name="fade" mode="out-in" :duration="180">
+        <router-view @showSnackbar="showSnackbar" @registered="isLoggedIn = $event"/>
       </transition>
     </v-content>
     <Snackbar :bus="bus"/>
@@ -73,17 +73,5 @@ export default {
 a {
   text-decoration: none;
   color: black !important;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition-duration: 0.3s;
-  transition-property: opacity;
-  transition-timing-function: ease;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

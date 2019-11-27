@@ -82,6 +82,7 @@ export default {
                     `Account created for ${cred.user.email}.`,
                     "success"
                   );
+                  this.$emit('registered', true);
                 });
               });
           },

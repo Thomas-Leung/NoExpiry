@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       name: null,
-      amount: null,
+      amount: 1,
       dateExpiry: new Date().toISOString().substr(0, 10),
       dateModal: false,
       safeAfterExpiry: false
@@ -85,7 +85,6 @@ export default {
         this.$emit("showSnackbar", "Name or amount cannot be empty", "error");
       } else {
         const today = new Date();
-        const time = "T00:00:00";
         db.collection("users")
           .doc(firebase.auth().currentUser.uid)
           .collection("items")
@@ -95,7 +94,7 @@ export default {
             type: "food",
             safeAfterExpiry: this.safeAfterExpiry,
             dateCreated: today,
-            dateExpiry: new Date(this.dateExpiry + time) // add time removes bug in js
+            dateExpiry: new Date(this.dateExpiry + ' ') // add a space removes bug in js
           })
           .then(() => {
             this.$router.push("/", () => {
